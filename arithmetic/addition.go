@@ -1,11 +1,9 @@
 package arithmetic
 
 func Add(operation []float64) float64 {
-	sum := float64(0)
-
-	for _, val := range operation {
-		sum += val
-	}
-
-	return sum
+		if len(operation) == 0 {
+			return 0
+		}
+		// using Recursion
+	return Add(operation[1:])+ operation[0]
 }
