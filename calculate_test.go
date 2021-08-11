@@ -1,47 +1,40 @@
-package main 
+package main
 
 import (
+	"reflect"
 	"testing"
-	a "github.com/Ad3bay0c/arithmetic"
 )
 
-
-func TestCalculate(t *testing.T){
-	result := Calculate("2*3*4*6*10", "4/2/1/4/5", "4+1+0+1+3", "10-23")
-
-	if len(result) != 4 {
-		t.Errorf("Result not accurate")
+func TestCalculateTable(t *testing.T) {
+	tables := []struct {
+		values []string
+		output []float64
+		word   string
+	}{
+		{
+			[]string{"2*3*1", "10/2/5", "10-4-2", "15+12"},
+			[]float64{6, 1, 4, 27},
+			"First result",
+		},
+		{
+			[]string{"3*3*1", "20/2/5", "-10-4-2", "15+12+10"},
+			[]float64{9, 2, -16, 37},
+			"Second result",
+		},
+		{
+			[]string{"0*2*3*1", "0*10/2/5", "-10-4-2", "15+12"},
+			[]float64{0, 0, -16, 27},
+			"Third result",
+		},
 	}
-}
 
-func TestAdd(t *testing.T) {
-	add := a.Add([]float64{-2,0,4,6})
+	for _, table := range tables {
+		t.Run(table.word, func(t *testing.T) {
+			result := Calculate(table.values...)
 
-	if add != 8 {
-		t.Errorf("Sum of Integers not correct")
+			if !reflect.DeepEqual(result, table.output) {
+				t.Errorf("Want: %v, Got: %v ", table.output, result)
+			}
+		})
 	}
-}
-
-func TestSub(t *testing.T) {
-	add := a.Sub([]float64{-2,0,4,4})
-
-	if add != -10 {
-		t.Errorf("Inaccurate Calculation")
-	} 
-}
-
-func TestMult(t *testing.T) {
-	add := a.Mult([]float64{-2,0,4,4})
-
-	if add != 0 {
-		t.Errorf("Inaccurate Calculation")
-	} 
-}
-
-func TestDiv(t *testing.T) {
-	add := a.Div([]float64{4,-4})
-
-	if add != -1 {
-		t.Errorf("Inaccurate Calculation")
-	} 
 }

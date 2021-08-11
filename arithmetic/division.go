@@ -2,17 +2,22 @@ package arithmetic
 
 import "fmt"
 
-func Div(operation []float64) float64 {
+func Div(operations []float64) float64 {
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Printf("Oops!!!, This happened: %v\n", err)
+		}
+	}()
 
 	div := float64(1)
 
-	for idx, val := range operation {
-		if val == 0 {
-			fmt.Println("Zero Values will be skipped")
-			continue
-		}
+	for idx, val := range operations {
+		
 		if idx < 1 {
 			div = val / div
+		} else if val == 0 {
+			panic("Division By Zero Not Allowed")
 		} else {
 			div /= val
 		}
